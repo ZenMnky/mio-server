@@ -1,5 +1,5 @@
-const returnSomething = () => {
-  return 'Hello, boilerplate!'
-}
+// const returnSomething = () => {
+//   return 'Hello, boilerplate!'
+// }
 
-module.exports = returnSomething;
+// module.exports = returnSomething;
