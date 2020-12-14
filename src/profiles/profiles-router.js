@@ -1,6 +1,7 @@
 const express = require("express");
 const {ProfilesService} = require('./profiles-service');
 const xss = require('xss');
+const path = require('path');
 
 const ProfilesRouter = express.Router();
 const bodyParser = express.json();
@@ -59,7 +60,7 @@ ProfilesRouter
     .then(profile => {
         res
             .status(201)
-            .location(`/profiles/${profile.id}`)
+            .location(path.posix.join (req.originalUrl, `/${profile.id}`))
             .json(profile);
     })
     .catch(next);
@@ -98,16 +99,11 @@ ProfilesRouter
   })
   .patch(bodyParser, (req, res, next) => {
     const { first_name, last_name, nickname, image_url, relationship_level, admirable_qualities, notes } = req.body;
-    let reqProfile = { 
-        first_name: xss(first_name),
-        last_name: xss(last_name),
-        nickname: xss(nickname),
-        relationship_level: relationship_level,
-        admirable_qualities: xss(admirable_qualities),
-        notes: xss(notes) 
-        };
     
-    let optionalProfile = { image_url: xss(image_url) };
+    let reqProfile = { first_name, last_name, nickname, image_url, relationship_level, admirable_qualities, notes }
+    
+    
+    let optionalProfile = { image_url };
     
     let profileToUpdate = {
         ...reqProfile,
