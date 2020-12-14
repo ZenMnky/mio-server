@@ -57,23 +57,25 @@ describe(`Profiles endpoints`, () => {
     describe(`GET /api/profiles/:profile_id`, () => {
         const testProfiles = makeProfilesArray();
             
-            beforeEach(`insert profiles`, () => {
-                return db
-                    .into('profiles')
-                    .insert(testProfiles)
-            })
-            
-            it(`responds with 200 and the expected profile`, () => {
-                const profileId = 2
-                const expectedProfile = testProfiles[profileId - 1]
-                return supertest(app)
-                    .get(`/api/profiles/${profileId}`)
-                    .expect(200, expectedProfile)
-            })
+        beforeEach(`insert profiles`, () => {
+            return db
+                .into('profiles')
+                .insert(testProfiles)
+        })
+        
+        it(`responds with 200 and the expected profile`, () => {
+            const profileId = 2
+            const expectedProfile = testProfiles[profileId - 1]
+            return supertest(app)
+                .get(`/api/profiles/${profileId}`)
+                .expect(200, expectedProfile)
+        })
     })
 
-    describe.only(`POST /api/profiles`, () => {
-        it(`responds with 201 when profile is added and returns new profile and id`, () => {
+    describe(`POST /api/profiles`, () => {
+        
+        it(`responds with 201 when profile is added
+             and returns new profile with id`, () => {
 
             const newProfile = {
                 first_name: faker.name.firstName(),
@@ -110,7 +112,32 @@ describe(`Profiles endpoints`, () => {
 
     })
 
-    describe(`DELETE /api/profiles/:profile_id`, () => {})
+    describe(`DELETE /api/profiles/:profile_id`, () => {
+        const testProfiles = makeProfilesArray();
+            
+        beforeEach(`insert profiles`, () => {
+            return db
+                .into('profiles')
+                .insert(testProfiles)
+        })
+
+        it(`Responds with 204 and removes the profile`, () => {
+            const idToRemove = 2
+            const expectedProfiles = testProfiles.filter(profile => profile.id !== idToRemove )
+            return supertest(app)
+                .delete('/api/profiles/2')
+                .expect(204)
+                .then(() => {
+                    return supertest(app)
+                        .get(`/api/profiles`)
+                        .expect(200, expectedProfiles)
+
+                })
+
+        })
+
+
+    })
 
     describe(`PATCH /api/profiles/:profile_id`, () => {})
   
