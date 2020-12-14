@@ -12,12 +12,12 @@ const sanitizeProfile = profile => ({
     nickname: xss(profile.nickname),
     image_url: xss(profile.image_url),
     relationship_level: profile.relationship_level,
-    admirable_qualiities: xss(profile.admirable_qualiities),
+    admirable_qualities: xss(profile.admirable_qualities),
     notes: xss(profile.notes)
 })
 
 ProfilesRouter
-  .route("/")
+  .route('/')
   .get((req, res, next) => {
     ProfilesService.getAllProfiles(req.app.get('db'))
       .then((profiles) => {
@@ -26,13 +26,13 @@ ProfilesRouter
       .catch(next);
   })
   .post(bodyParser, (req, res, next) => {
-    const { first_name, last_name, nickname, image_url, relationship_level, admirable_qualiities, notes } = req.body;
+    const { first_name, last_name, nickname, image_url, relationship_level, admirable_qualities, notes } = req.body;
     let reqProfile = { 
         first_name: xss(first_name),
         last_name: xss(last_name),
         nickname: xss(nickname),
         relationship_level: relationship_level,
-        admirable_qualiities: xss(admirable_qualiities),
+        admirable_qualities: xss(admirable_qualities),
         notes: xss(notes) 
         };
     
@@ -97,13 +97,13 @@ ProfilesRouter
       .catch(next);
   })
   .patch(bodyParser, (req, res, next) => {
-    const { first_name, last_name, nickname, image_url, relationship_level, admirable_qualiities, notes } = req.body;
+    const { first_name, last_name, nickname, image_url, relationship_level, admirable_qualities, notes } = req.body;
     let reqProfile = { 
         first_name: xss(first_name),
         last_name: xss(last_name),
         nickname: xss(nickname),
         relationship_level: relationship_level,
-        admirable_qualiities: xss(admirable_qualiities),
+        admirable_qualities: xss(admirable_qualities),
         notes: xss(notes) 
         };
     

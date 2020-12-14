@@ -35,6 +35,22 @@ describe(`Profiles endpoints`, () => {
                     .expect(200, [])
             })
         })
+
+        context(`Given there are profiles in the database`, () => {
+            const testProfiles = makeProfilesArray();
+            console.log(testProfiles)
+            beforeEach(`insert profiles`, () => {
+                return db
+                    .into('profiles')
+                    .insert(testProfiles)
+            })
+
+            it(`responds with 200 and the expected profiles`, () => {
+                return supertest(app)
+                    .get(`/api/profiles`)
+                    .expect(200, testProfiles)
+            })
+        })
     })
     
     describe(`POST /api/profiles`, () => {})
