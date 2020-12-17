@@ -1,5 +1,9 @@
 # Mio - Server
-Server for mio client
+RESTful api for Mio-Client
+
+## Technologies
+Express.js, PostgreSQL, Node.js
+
 ---
 
 ---
