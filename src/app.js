@@ -10,12 +10,19 @@ const morganOption = NODE_ENV === 'production' ? 'tiny' : 'common';
 
 const app = express();
 
+app.use((req, res, next) => {
+  console.log('req body before morgan')
+  console.table(req.body)
+  next()
+})
+
 app.use(morgan(morganOption));
   app.use((req, res, next) => {
     console.log('req body after morgan')
     console.table(req.body)
     next()
   })
+
 app.use(helmet());
   app.use((req, res, next) => {
     console.log('req body after helmet')
