@@ -27,8 +27,8 @@ ProfilesRouter
       .catch(next);
   })
   .post(bodyParser, (req, res, next) => {
-    console.log('req.body')
-    console.table(req.body)
+    // console.log('req.body')
+    // console.table(req.body)
 
     const { first_name, last_name, nickname, image_url, relationship_level, admirable_qualities, notes } = req.body;
     let reqProfile = { 
@@ -40,8 +40,8 @@ ProfilesRouter
         notes: xss(notes) 
         };
     
-    console.log('reqProfile')
-    console.table(reqProfile)
+    // console.log('reqProfile')
+    // console.table(reqProfile)
 
     let optionalProfile = { image_url: xss(image_url) };
     

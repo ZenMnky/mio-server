@@ -14,6 +14,12 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
+app.use((req, res, next) => {
+  console.log('req body')
+  console.table(req.body)
+  next()
+})
+
 app.use('/api/profiles', profilesRouter);
 
 app.get('/', (req, res) => {
