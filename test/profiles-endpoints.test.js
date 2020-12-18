@@ -160,38 +160,38 @@ describe(`Profiles endpoints`, () => {
         context(`Given profiles`, () => {
             const testProfiles = makeProfilesArray();
             
-        beforeEach(`insert profiles`, () => {
-            return db
-                .into('profiles')
-                .insert(testProfiles)
-        })
-
-        it(`responds with 204 and updates the profile`, () => {
-            const idToUpdate = 2;
-            const updatedProfile = {                
-                nickname: ' new nick',
-                relationship_level: 5,
-                admirable_qualities: 'moderation, courage, honesty',
-                notes: 'regularly contemplate admirable characteristics' 
-            };
-
-            
-
-            const expectedProfile = {
-                ...testProfiles[idToUpdate - 1],
-                ...updatedProfile
-            }
-
-            return supertest(app)
-                .patch(`/api/profiles/${idToUpdate}`)
-                .send(updatedProfile)
-                .expect(204)
-                .then( res => {
-                    return supertest(app)
-                    .get(`/api/profiles/${idToUpdate}`)
-                    .expect(expectedProfile)
+            beforeEach(`insert profiles`, () => {
+                return db
+                    .into('profiles')
+                    .insert(testProfiles)
             })
-        })
+
+            it(`responds with 204 and updates the profile`, () => {
+                const idToUpdate = 2;
+                const updatedProfile = {                
+                    nickname: ' new nick',
+                    relationship_level: 5,
+                    admirable_qualities: 'moderation, courage, honesty',
+                    notes: 'regularly contemplate admirable characteristics' 
+                };
+
+                
+
+                const expectedProfile = {
+                    ...testProfiles[idToUpdate - 1],
+                    ...updatedProfile
+                }
+
+                return supertest(app)
+                    .patch(`/api/profiles/${idToUpdate}`)
+                    .send(updatedProfile)
+                    .expect(204)
+                    .then( res => {
+                        return supertest(app)
+                        .get(`/api/profiles/${idToUpdate}`)
+                        .expect(expectedProfile)
+                })
+            })
 
         })
 
