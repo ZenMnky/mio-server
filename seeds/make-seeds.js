@@ -4,7 +4,6 @@ let profilesSeedArray = [];
 let numberOfProfiles = 20;
 
 for(let i=0; i < numberOfProfiles; i++){
-    let id = i + 1;
     let first_name = faker.name.firstName();
     let last_name = faker.name.lastName();
     let nickname = faker.random.word();
@@ -17,7 +16,7 @@ for(let i=0; i < numberOfProfiles; i++){
         relationship_level += 1;
     }
 
-    let seedProfile = `(${id}, '${first_name}', '${last_name}', '${nickname}', '${image_url}', ${relationship_level}, '${admirable_qualities}', '${notes}')`;
+    let seedProfile = `('${first_name}', '${last_name}', '${nickname}', '${image_url}', ${relationship_level}, '${admirable_qualities}', '${notes}')`;
 
     profilesSeedArray.push(seedProfile)
 }
