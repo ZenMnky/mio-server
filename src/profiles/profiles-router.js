@@ -27,6 +27,9 @@ ProfilesRouter
       .catch(next);
   })
   .post(bodyParser, (req, res, next) => {
+    console.log('req.body')
+    console.table(req.body)
+
     const { first_name, last_name, nickname, image_url, relationship_level, admirable_qualities, notes } = req.body;
     let reqProfile = { 
         first_name: xss(first_name),
