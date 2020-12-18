@@ -37,6 +37,9 @@ ProfilesRouter
         notes: xss(notes) 
         };
     
+    console.log('reqProfile')
+    console.table(reqProfile)
+
     let optionalProfile = { image_url: xss(image_url) };
     
     let newProfile = {
