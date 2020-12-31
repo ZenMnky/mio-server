@@ -16,8 +16,6 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-
-
 app.use('/api/profiles', profilesRouter);
 
 app.get('/', (req, res) => {
@@ -32,12 +30,5 @@ app.use(function errorHandler(error, req, res, next) {
 
   res.status(500).json(response);
 });
-
-// app.use((error, req, res, next) => {
-//   console.error(error); 
-//   res.status(500).json({
-//     error: {message: "Internal server error"}
-//   })
-// })
 
 module.exports = app;

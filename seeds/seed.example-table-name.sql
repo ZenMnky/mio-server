@@ -1,4 +1,4 @@
-INSERT INTO
+  INSERT INTO
   profiles (
     first_name,
     last_name,

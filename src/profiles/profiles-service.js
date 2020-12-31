@@ -32,7 +32,7 @@ const ProfilesService = {
       .where({ id })
       .update(newData);
   }
-}
+};
 
-module.exports = { ProfilesService }
+module.exports = { ProfilesService };
 

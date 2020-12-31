@@ -12,30 +12,30 @@ describe(`Profiles endpoints`, () => {
         db = knex({
             client: 'pg',
             connection: process.env.TEST_DATABASE_URL
-        })
-        app.set('db', db)
-    })
+        });
+        app.set('db', db);
+    });
 
-    after(`disconnect from db`, () => db.destroy() )
+    after(`disconnect from db`, () => db.destroy() );
 
     before(`clean table`, () => {
         return db
-        .raw('TRUNCATE TABLE profiles RESTART IDENTITY CASCADE')
-    })
+            .raw('TRUNCATE TABLE profiles RESTART IDENTITY CASCADE');
+    });
 
     afterEach(`clean table`, () => {
         return db
-            .raw('TRUNCATE TABLE profiles RESTART IDENTITY CASCADE')
-    })
+            .raw('TRUNCATE TABLE profiles RESTART IDENTITY CASCADE');
+    });
 
     describe(`GET /api/profiles`, () => {
         context(`Given no profiles`, () => {
             it(`responds with 200 and an empty list`, () => {
                 return supertest(app)
                     .get(`/api/profiles`)
-                    .expect(200, [])
-            })
-        })
+                    .expect(200, []);
+            });
+        });
 
         context(`Given there are profiles in the database`, () => {
             const testProfiles = makeProfilesArray();
@@ -43,16 +43,16 @@ describe(`Profiles endpoints`, () => {
             beforeEach(`insert profiles`, () => {
                 return db
                     .into('profiles')
-                    .insert(testProfiles)
-            })
+                    .insert(testProfiles);
+            });
 
             it(`responds with 200 and the expected profiles`, () => {
                 return supertest(app)
                     .get(`/api/profiles`)
-                    .expect(200, testProfiles)
-            })
-        })
-    })
+                    .expect(200, testProfiles);
+            });
+        });
+    });
     
     describe(`GET /api/profiles/:profile_id`, () => {
         const testProfiles = makeProfilesArray();
@@ -60,17 +60,17 @@ describe(`Profiles endpoints`, () => {
         beforeEach(`insert profiles`, () => {
             return db
                 .into('profiles')
-                .insert(testProfiles)
-        })
+                .insert(testProfiles);
+        });
         
         it(`responds with 200 and the expected profile`, () => {
-            const profileId = 2
-            const expectedProfile = testProfiles[profileId - 1]
+            const profileId = 2;
+            const expectedProfile = testProfiles[profileId - 1];
             return supertest(app)
                 .get(`/api/profiles/${profileId}`)
-                .expect(200, expectedProfile)
-        })
-    })
+                .expect(200, expectedProfile);
+        });
+    });
 
     describe(`POST /api/profiles`, () => {
         
@@ -85,7 +85,7 @@ describe(`Profiles endpoints`, () => {
                 relationship_level: 5,
                 admirable_qualities: faker.lorem.paragraph(3),
                 notes: faker.lorem.paragraphs(3),
-            }
+            };
 
             return supertest(app)
                 .post('/api/profiles')
@@ -100,17 +100,17 @@ describe(`Profiles endpoints`, () => {
                     expect(res.body.admirable_qualities).to.eql(newProfile.admirable_qualities)
                     expect(res.body.notes).to.eql(newProfile.notes)
                     expect(res.body).to.have.property('id')
-                    expect(res.headers.location).to.eql(`/api/profiles/${res.body.id}`)
+                    expect(res.headers.location).to.eql(`/api/profiles/${res.body.id}`);
                 })
                 .then(response => {
                     supertest(app)
                         .get(`/api/profiles/${response.body.id}`)
-                        .expect(response.body)
-                })
+                        .expect(response.body);
+                });
                 
-        })
+        });
 
-    })
+    });
 
     describe(`DELETE /api/profiles/:profile_id`, () => {
         context(`Given no profiles`, () => {
@@ -118,9 +118,9 @@ describe(`Profiles endpoints`, () => {
                 const profileId = 1;
                 return supertest(app)
                     .delete(`/api/profiles/${profileId}`)
-                    .expect(404, {error: { message: `Profile doesn't exist` }})
-            })
-        })
+                    .expect(404, {error: { message: `Profile doesn't exist` }});
+            });
+        });
 
         context(`Given profiles`, () => {
             const testProfiles = makeProfilesArray();
@@ -128,24 +128,23 @@ describe(`Profiles endpoints`, () => {
             beforeEach(`insert profiles`, () => {
                 return db
                     .into('profiles')
-                    .insert(testProfiles)
-            })
+                    .insert(testProfiles);
+            });
 
             it(`Responds with 204 and removes the profile`, () => {
-                const idToRemove = 2
-                const expectedProfiles = testProfiles.filter(profile => profile.id !== idToRemove )
+                const idToRemove = 2;
+                const expectedProfiles = testProfiles.filter(profile => profile.id !== idToRemove );
                 return supertest(app)
                     .delete('/api/profiles/2')
                     .expect(204)
                     .then(() => {
                         return supertest(app)
                             .get(`/api/profiles`)
-                            .expect(200, expectedProfiles)
-
-                    })
-            })
-        })
-    })
+                            .expect(200, expectedProfiles);
+                    });
+            });
+        });
+    });
 
     describe(`PATCH /api/profiles/:profile_id`, () => {
         
@@ -154,17 +153,17 @@ describe(`Profiles endpoints`, () => {
                 const profileId = 1;
                 return supertest(app)
                     .patch(`/api/profiles/${profileId}`)
-                    .expect(404, {error: { message: `Profile doesn't exist` }})
-            })
-        })
+                    .expect(404, {error: { message: `Profile doesn't exist` }});
+            });
+        });
         context(`Given profiles`, () => {
             const testProfiles = makeProfilesArray();
             
             beforeEach(`insert profiles`, () => {
                 return db
                     .into('profiles')
-                    .insert(testProfiles)
-            })
+                    .insert(testProfiles);
+            });
 
             it(`responds with 204 and updates the profile`, () => {
                 const idToUpdate = 2;
@@ -175,12 +174,10 @@ describe(`Profiles endpoints`, () => {
                     notes: 'regularly contemplate admirable characteristics' 
                 };
 
-                
-
                 const expectedProfile = {
                     ...testProfiles[idToUpdate - 1],
                     ...updatedProfile
-                }
+                };
 
                 return supertest(app)
                     .patch(`/api/profiles/${idToUpdate}`)
@@ -189,12 +186,9 @@ describe(`Profiles endpoints`, () => {
                     .then( res => {
                         return supertest(app)
                         .get(`/api/profiles/${idToUpdate}`)
-                        .expect(expectedProfile)
-                })
-            })
-
-        })
-
-    })
-  
-})
+                        .expect(expectedProfile);
+                });
+            });
+        });
+    });
+});

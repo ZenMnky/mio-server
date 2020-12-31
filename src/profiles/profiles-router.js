@@ -15,14 +15,14 @@ const sanitizeProfile = profile => ({
     relationship_level: profile.relationship_level,
     admirable_qualities: xss(profile.admirable_qualities),
     notes: xss(profile.notes)
-})
+});
 
 ProfilesRouter
   .route('/')
   .get((req, res, next) => {
     ProfilesService.getAllProfiles(req.app.get('db'))
       .then((profiles) => {
-        return res.json(profiles.map(sanitizeProfile))
+        return res.json(profiles.map(sanitizeProfile));
       })
       .catch(next);
   })
@@ -50,8 +50,8 @@ ProfilesRouter
         return res.status(400).json({
           error: { message: `Missing ${key} in request body` }
         });
-      }
-    }
+      };
+    };
 
 
     ProfilesService.insertProfile(
@@ -101,7 +101,7 @@ ProfilesRouter
   .patch(bodyParser, (req, res, next) => {
     const { first_name, last_name, nickname, image_url, relationship_level, admirable_qualities, notes } = req.body;
     
-    let reqProfile = { first_name, last_name, nickname, image_url, relationship_level, admirable_qualities, notes }
+    let reqProfile = { first_name, last_name, nickname, image_url, relationship_level, admirable_qualities, notes };
     
     
     let optionalProfile = { image_url };
@@ -119,7 +119,7 @@ ProfilesRouter
     .then(numRowsAffected => {
         return res.status(204).end()
     })
-    .catch(next)
+    .catch(next);
   });
 
 module.exports = ProfilesRouter;

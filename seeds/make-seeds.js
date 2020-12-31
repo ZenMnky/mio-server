@@ -18,8 +18,8 @@ for(let i=0; i < numberOfProfiles; i++){
 
     let seedProfile = `('${first_name}', '${last_name}', '${nickname}', '${image_url}', ${relationship_level}, '${admirable_qualities}', '${notes}')`;
 
-    profilesSeedArray.push(seedProfile)
+    profilesSeedArray.push(seedProfile);
 }
 
-console.log(profilesSeedArray.join())
+console.log(profilesSeedArray.join());
 // remeber to add a semi colon to the end :)
