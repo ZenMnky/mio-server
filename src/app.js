@@ -19,7 +19,7 @@ app.use(express.json());
 app.use('/api/profiles', profilesRouter);
 
 app.get('/', (req, res) => {
-  res.send(`Hello. All the action is at '/api/profiles !`)
+  res.send(`Hello. All the action is at '/api/profiles !`);
 });
 
 app.use(function errorHandler(error, req, res, next) {

@@ -7,14 +7,14 @@ const ProfilesRouter = express.Router();
 const bodyParser = express.json();
 
 const sanitizeProfile = profile => ({
-    id: profile.id,
-    first_name: xss(profile.first_name),
-    last_name: xss(profile.last_name),
-    nickname: xss(profile.nickname),
-    image_url: xss(profile.image_url),
-    relationship_level: profile.relationship_level,
-    admirable_qualities: xss(profile.admirable_qualities),
-    notes: xss(profile.notes)
+  id: profile.id,
+  first_name: xss(profile.first_name),
+  last_name: xss(profile.last_name),
+  nickname: xss(profile.nickname),
+  image_url: xss(profile.image_url),
+  relationship_level: profile.relationship_level,
+  admirable_qualities: xss(profile.admirable_qualities),
+  notes: xss(profile.notes)
 });
 
 ProfilesRouter
@@ -30,19 +30,19 @@ ProfilesRouter
   
     const { first_name, last_name, nickname, image_url, relationship_level, admirable_qualities, notes } = req.body;
     let reqProfile = { 
-        first_name: xss(first_name),
-        last_name: xss(last_name),
-        nickname: xss(nickname),
-        relationship_level: relationship_level,
-        admirable_qualities: xss(admirable_qualities),
-        notes: xss(notes) 
-        };
+      first_name: xss(first_name),
+      last_name: xss(last_name),
+      nickname: xss(nickname),
+      relationship_level: relationship_level,
+      admirable_qualities: xss(admirable_qualities),
+      notes: xss(notes) 
+    };
     
     let optionalProfile = { image_url: xss(image_url) };
     
     let newProfile = {
-        ...reqProfile,
-         ...optionalProfile
+      ...reqProfile,
+      ...optionalProfile
     };
 
     for (const [key, value] of Object.entries(reqProfile)) {
@@ -58,13 +58,13 @@ ProfilesRouter
       req.app.get('db'),
       newProfile
     )
-    .then(profile => {
+      .then(profile => {
         res
-            .status(201)
-            .location(path.posix.join (req.originalUrl, `/${profile.id}`))
-            .json(profile);
-    })
-    .catch(next);
+          .status(201)
+          .location(path.posix.join (req.originalUrl, `/${profile.id}`))
+          .json(profile);
+      })
+      .catch(next);
   });
 
 ProfilesRouter
@@ -107,19 +107,19 @@ ProfilesRouter
     let optionalProfile = { image_url };
     
     let profileToUpdate = {
-        ...reqProfile,
-         ...optionalProfile
+      ...reqProfile,
+      ...optionalProfile
     };
 
     ProfilesService.updateProfile(
-        req.app.get('db'),
-        req.params.profile_id,
-        profileToUpdate
+      req.app.get('db'),
+      req.params.profile_id,
+      profileToUpdate
     )
-    .then(numRowsAffected => {
-        return res.status(204).end()
-    })
-    .catch(next);
+      .then(numRowsAffected => {
+        return res.status(204).end();
+      })
+      .catch(next);
   });
 
 module.exports = ProfilesRouter;
