@@ -19,7 +19,24 @@ app.use(express.json());
 app.use('/api/profiles', profilesRouter);
 
 app.get('/', (req, res) => {
-  res.send(`Hello. All the action is at '/api/profiles !`);
+  let msg = `
+  Hello. All the action is at '/api/profiles' !
+  <br></br>
+
+  Supported methods and endpoints:
+  <br></br> - GET '/api/profiles' | get all profiles
+  <br></br> - POST '/api/profiles' | add a profile
+  <br></br> - GET '/api/profiles/:id' | get a specific profile by id
+  <br></br> - PATCH '/api/profiles/:id' | update a specific profile by id
+  <br></br> - DELETE '/api/profiles/:id' | delete a specific profile by id
+
+  <br></br>
+  Req & Res:
+  <br></br> - Include 'Content-Type: application/json' in header of all requests
+  <br></br> - Responses are in JSON format
+  `;
+
+  res.send(msg);
 });
 
 app.use(function errorHandler(error, req, res, next) {
