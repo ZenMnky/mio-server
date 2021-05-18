@@ -17,7 +17,7 @@
     "postdeploy": "npm run migrate:production"
   },
   "engines": {
-    "node": "12.14.0"
+    "node": "14.x"
   },
   "keywords": [],
   "author": "ZenMnky",
